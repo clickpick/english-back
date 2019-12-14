@@ -21,7 +21,10 @@ class UserResource extends JsonResource
             'avatar_200' => $this->avatar_200,
             'utc_offset' => $this->utc_offset,
             'messages_are_enabled' => $this->messages_are_enabled,
-            'notifications_are_enabled' => $this->notifications_are_enabled
+            'notifications_are_enabled' => $this->notifications_are_enabled,
+            'start_at' => $this->start_at,
+            'end_at' => $this->end_at,
+            'is_active' => $this->is_active
         ];
     }
 }

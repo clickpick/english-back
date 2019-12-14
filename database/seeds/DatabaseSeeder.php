@@ -10,15 +10,15 @@ class DatabaseSeeder extends Seeder
         'Начальный' => [
             'to Quit' => [
                 [
-                    'native' => 'to Quit',
+                    'native' => 'to Quit 😱',
                     'translation' => 'Оставлять, уходить, бросать, увольняться'
                 ],
                 [
-                    'native' => 'You should quit smoking',
+                    'native' => 'You should quit smoking 🤯',
                     'translation' => 'Ты должен бросить курить'
                 ],
                 [
-                    'native' => 'Quit laughing',
+                    'native' => 'Quit laughing 😩',
                     'translation' => 'Хорош смеяться'
                 ]
             ]

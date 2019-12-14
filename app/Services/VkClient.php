@@ -2,24 +2,29 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Collection;
+use App\Services\Bot\OutgoingMessage;
+use CURLFile;
 use VK\Client\VKApiClient;
-use VK\Client\VKApiRequest;
+use VK\Exceptions\Api\VKApiMessagesDenySendException;
+use VK\Exceptions\VKApiException;
+use VK\Exceptions\VKClientException;
 
 class VkClient
 {
     protected $client;
     private $accessToken;
 
+    public const GROUP_TOKEN = 'group';
+    public const APP_TOKEN = 'app';
+
     public const API_VERSION = '5.103';
     public const LANG = 'ru';
     public const API_HOST = 'https://api.vk.com/method';
 
-    public function __construct($accessToken = null)
+    public function __construct($tokenType = self::APP_TOKEN)
     {
-        $this->client = new VKApiClient(self::API_VERSION, self::LANG);
-
-        $this->accessToken = $accessToken ?? config('services.vk.app.service_key');
+        $this->client = new VKApiClient(self::API_VERSION, 'ru');
+        $this->accessToken = config('services.vk.' . $tokenType . '.service_key');
     }
 
     public function getUsers($ids, array $fields)
@@ -33,5 +38,41 @@ class VkClient
         ]);
 
         return $isFew ? $response : $response[0];
+    }
+
+    public function sendMessage(OutgoingMessage $outgoingMessage): void
+    {
+        $this->client->messages()->send($this->accessToken, $outgoingMessage->toVkRequest());
+    }
+
+    public function uploadAudioDocs($storagePath, $peerId)
+    {
+        try {
+            $uploadUrl = $this->client->docs()->getMessagesUploadServer($this->accessToken, [
+                'type' => 'audio_message',
+                'peer_id' => $peerId
+            ])['upload_url'];
+        } catch (\Exception $e) {
+            dd('here');
+        }
+
+        $curl = curl_init($uploadUrl);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, array('file' => new CURLfile($storagePath)));
+        $json = curl_exec($curl);
+        $error = curl_error($curl);
+        if ($error) {
+            throw new \RuntimeException("Failed {$uploadUrl} request");
+        }
+        curl_close($curl);
+        $file = json_decode($json, true)['file'];
+
+        $response = $this->client->docs()->save($this->accessToken, [
+            'file' => $file,
+            'title' => 'audio message'
+        ]);
+
+        return $response['audio_message'];
     }
 }

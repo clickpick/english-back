@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Events\UserCreated;
+use App\Services\Bot\OutgoingMessage;
 use App\Services\VkClient;
 use Barryvdh\LaravelIdeHelper\Eloquent;
 use Illuminate\Auth\Authenticatable;
@@ -11,6 +12,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Lumen\Auth\Authorizable;
 use Spatie\Regex\Regex;
 
@@ -49,6 +51,14 @@ use Spatie\Regex\Regex;
  * @method static Builder|User whereVisitedAt($value)
  * @method static User firstOrCreate(array $array)
  * @mixin Eloquent
+ * @property int $start_at
+ * @property int $end_at
+ * @property int|null $level_id
+ * @property bool $is_active
+ * @method static Builder|User whereEndAt($value)
+ * @method static Builder|User whereIsActive($value)
+ * @method static Builder|User whereLevelId($value)
+ * @method static Builder|User whereStartAt($value)
  */
 class User extends Model implements AuthenticatableContract, AuthorizableContract
 {
@@ -70,12 +80,20 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $casts = [
         'id' => 'integer',
         'notifications_are_enabled' => 'boolean',
-        'messages_are_enabled' => 'boolean'
+        'messages_are_enabled' => 'boolean',
+        'start_at' => 'integer',
+        'end_at' => 'integer',
+        'is_active' => 'boolean'
     ];
 
     protected $dispatchesEvents = [
         'created' => UserCreated::class
     ];
+
+    public function vkMessages()
+    {
+        return $this->hasMany(VkMessage::class);
+    }
 
     public function fillPersonalInfoFromVk($data = null)
     {
@@ -182,5 +200,27 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         $this->utc_offset = $offset;
         $this->save();
+    }
+
+    public function sendVkMessage(OutgoingMessage $outgoingMessage)
+    {
+
+        if (!$this->messages_are_enabled) {
+            return;
+        }
+
+        $outgoingMessage->setRecipient($this);
+        $outgoingMessage->createModel();
+
+        (new VkClient(VkClient::GROUP_TOKEN))->sendMessage($outgoingMessage);
+    }
+
+    public function sendPhraseMessage(Phrase $phrase)
+    {
+        $outgoingMessage = new OutgoingMessage("{$phrase->native}\n\n{$phrase->translation}");
+        $outgoingMessage->setRecipient($this);
+        $outgoingMessage->addAudio(Storage::path($phrase->audio_path));
+
+        $this->sendVkMessage($outgoingMessage);
     }
 }

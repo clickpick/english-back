@@ -57,9 +57,9 @@ $app->singleton(
 |
 */
 
-// $app->middleware([
-//     App\Http\Middleware\ExampleMiddleware::class
-// ]);
+ $app->middleware([
+     \Barryvdh\Cors\HandleCors::class,
+ ]);
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
@@ -80,6 +80,7 @@ $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Laravel\Tinker\TinkerServiceProvider::class);
+$app->register(Barryvdh\Cors\ServiceProvider::class);
 
 if ($app->environment() !== 'production') {
     $app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
@@ -111,5 +112,6 @@ $app->router->group([
 });
 
 $app->configure('services');
+$app->configure('cors');
 
 return $app;
