@@ -82,6 +82,7 @@ $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Laravel\Tinker\TinkerServiceProvider::class);
 $app->register(Barryvdh\Cors\ServiceProvider::class);
 $app->register(Lorisleiva\LaravelDeployer\LaravelDeployerServiceProvider::class);
+$app->register(Illuminate\Redis\RedisServiceProvider::class);
 
 if ($app->environment() === 'local') {
     $app->register(Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
