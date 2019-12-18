@@ -14,8 +14,8 @@ class AddSettingsToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedTinyInteger('start_at')->default(420);
-            $table->unsignedTinyInteger('end_at')->default(1320);
+            $table->unsignedTinyInteger('start_at')->default(600);
+            $table->unsignedTinyInteger('end_at')->default(1200);
 
             $table->unsignedBigInteger('level_id')->nullable();
             $table->foreign('level_id')->references('id')->on('levels')->onDelete('set NULL');
