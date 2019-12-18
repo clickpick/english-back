@@ -95,7 +95,8 @@ class MeController extends Controller
         $this->validate($request, [
             'start_at' => 'integer|min:420|max:720',
             'end_at' => 'integer|min:1140|max:1440',
-            'is_active' => 'boolean'
+            'is_active' => 'boolean',
+            'level_id' => 'integer|exists:levels,id'
         ]);
 
         /**
@@ -103,7 +104,7 @@ class MeController extends Controller
          */
         $user = Auth::user();
 
-        $user->update($request->only(['start_at', 'end_at', 'is_active']));
+        $user->update($request->only(['start_at', 'end_at', 'is_active', 'level_id']));
 
         return new UserResource($user);
     }

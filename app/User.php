@@ -77,7 +77,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'visited_at',
         'is_active',
         'start_at',
-        'end_at'
+        'end_at',
+        'level_id'
     ];
 
     protected $casts = [
