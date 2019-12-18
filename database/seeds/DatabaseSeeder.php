@@ -60,7 +60,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $data = new \Illuminate\Support\Collection($this->data);
+        $data = new \Illuminate\Support\Collection($this->data());
 
         $data->each(function ($wordNames, $levelName) {
             $level = \App\Level::create([
