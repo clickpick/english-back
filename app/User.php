@@ -10,6 +10,7 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
@@ -59,6 +60,12 @@ use Spatie\Regex\Regex;
  * @method static Builder|User whereIsActive($value)
  * @method static Builder|User whereLevelId($value)
  * @method static Builder|User whereStartAt($value)
+ * @property-read Collection|Word[] $learnedWords
+ * @property-read int|null $learned_words_count
+ * @property-read Collection|VkMessage[] $vkMessages
+ * @property-read int|null $vk_messages_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Lesson[] $lessons
+ * @property-read int|null $lessons_count
  */
 class User extends Model implements AuthenticatableContract, AuthorizableContract
 {
@@ -97,6 +104,16 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function vkMessages()
     {
         return $this->hasMany(VkMessage::class);
+    }
+
+    public function learnedWords()
+    {
+        return $this->belongsToMany(Word::class, 'learned_words')->withTimestamps();
+    }
+
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class);
     }
 
     public function fillPersonalInfoFromVk($data = null)
@@ -208,7 +225,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function sendVkMessage(OutgoingMessage $outgoingMessage)
     {
-
         if (!$this->messages_are_enabled) {
             return;
         }

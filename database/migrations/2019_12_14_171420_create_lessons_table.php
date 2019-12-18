@@ -23,6 +23,8 @@ class CreateLessonsTable extends Migration
             $table->foreign('phrase_id')->references('id')->on('phrases')->onDelete('cascade');
 
             $table->timestamp('send_at');
+
+            $table->boolean('is_learned')->default(false);
             $table->boolean('is_sent')->default(false);
             $table->boolean('is_registered')->default(false);
 

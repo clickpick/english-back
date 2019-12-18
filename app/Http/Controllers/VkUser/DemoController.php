@@ -27,7 +27,7 @@ class DemoController extends Controller
 
     public function demo()
     {
-        $word = Word::first();
+        $word = Word::where('level_id', '!=', 1)->first();
         $phrases = $word->phrases;
 
         return PhraseResource::collection($phrases);
