@@ -35,7 +35,7 @@ class SendLessonNotification extends Job
         }
 
         $this->lesson->is_learned = true;
-        $this->lesson->save()
+        $this->lesson->save();
 
         $user = $this->lesson->user;
         $phrase = $this->lesson->phrase;
