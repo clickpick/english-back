@@ -74,7 +74,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'utc_offset',
         'notifications_are_enabled',
         'messages_are_enabled',
-        'visited_at'
+        'visited_at',
+        'is_active',
+        'start_at',
+        'end_at'
     ];
 
     protected $casts = [

@@ -88,4 +88,23 @@ class MeController extends Controller
 
         return new UserResource($user);
     }
+
+    public function updateSettings(Request $request): UserResource
+    {
+
+        $this->validate($request, [
+            'start_at' => 'integer|min:420|max:720',
+            'end_at' => 'integer|min:1140|max:1440',
+            'is_active' => 'boolean'
+        ]);
+
+        /**
+         * @var User $user
+         */
+        $user = Auth::user();
+
+        $user->update($request->only(['start_at', 'end_at', 'is_active']));
+
+        return new UserResource($user);
+    }
 }

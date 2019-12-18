@@ -27,3 +27,5 @@ $router->post('/me/end-at', 'MeController@setEndAt');
 
 $router->post('/me/start', 'MeController@start');
 $router->post('/me/stop', 'MeController@stop');
+
+$router->post('/me/settings', 'MeController@updateSettings');
