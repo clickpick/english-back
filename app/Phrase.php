@@ -37,6 +37,8 @@ use Illuminate\Support\Facades\Storage;
  */
 class Phrase extends Model
 {
+    public const SPACE = ' ';
+
     protected $fillable = [
         'native',
         'translation'
