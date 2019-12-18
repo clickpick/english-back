@@ -32,4 +32,12 @@ class DemoController extends Controller
 
         return PhraseResource::collection($phrases);
     }
+
+    public function about() {
+        $word = Word::whereName('about')->first();
+
+        $phrases = $word->phrases()->orderBy('id', 'asc')->get();
+
+        return PhraseResource::collection($phrases);
+    }
 }

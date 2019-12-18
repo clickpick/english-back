@@ -20,6 +20,7 @@ use Laravel\Lumen\Routing\Router;
 $router->post('auth', 'MeController@user');
 
 $router->get('demo', 'DemoController@demo');
+$router->get('about', 'DemoController@about');
 $router->get('levels', 'LevelController@index');
 
 $router->post('/me/start-at', 'MeController@setStartAt');
