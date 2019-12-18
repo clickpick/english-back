@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
             'System' => [
                 'about' => [
                     [
-                        'native' => 'Hi! It`s time to make notifications useful',
+                        'native' => 'Hi! It\'s time to make notifications useful',
                         'translation' => 'Привет! Пора сделать пуши полезными'
                     ],
                     [
