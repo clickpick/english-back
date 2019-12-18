@@ -115,5 +115,6 @@ $app->router->group([
 
 $app->configure('services');
 $app->configure('cors');
+$app->configure('database');
 
 return $app;
