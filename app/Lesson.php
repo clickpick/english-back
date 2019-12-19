@@ -17,7 +17,7 @@ use Queue;
  * @property int $id
  * @property int $user_id
  * @property int $phrase_id
- * @property string $send_at
+ * @property Carbon $send_at
  * @property bool $is_sent
  * @property bool $is_registered
  * @property Carbon|null $created_at
