@@ -85,6 +85,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'messages_are_enabled',
         'visited_at',
         'is_active',
+        'is_ready',
         'start_at',
         'end_at',
         'level_id'
