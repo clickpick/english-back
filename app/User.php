@@ -64,8 +64,10 @@ use Spatie\Regex\Regex;
  * @property-read int|null $learned_words_count
  * @property-read Collection|VkMessage[] $vkMessages
  * @property-read int|null $vk_messages_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Lesson[] $lessons
+ * @property-read Collection|Lesson[] $lessons
  * @property-read int|null $lessons_count
+ * @property bool $is_ready
+ * @method static Builder|User whereIsReady($value)
  */
 class User extends Model implements AuthenticatableContract, AuthorizableContract
 {
@@ -242,5 +244,25 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         $outgoingMessage->addAudio(Storage::path($phrase->audio_path));
 
         $this->sendVkMessage($outgoingMessage);
+    }
+
+    public function getNextLessonAt()
+    {
+        $lesson = $this->lessons()
+            ->where('send_at', '>', Carbon::now())
+            ->orderBy('send_at', 'asc')
+            ->first();
+
+        if ($lesson) {
+            return $lesson->send_at;
+        }
+
+        if ($this->is_ready) {
+            $minutes = $this->utc_offset ? ((-1) * $this->utc_offset + $this->start_at) : $this->start_at;
+
+            return Carbon::tomorrow()->setMinutes($minutes);
+        }
+
+        return null;
     }
 }

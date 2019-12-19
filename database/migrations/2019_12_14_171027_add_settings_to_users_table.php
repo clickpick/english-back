@@ -20,7 +20,10 @@ class AddSettingsToUsersTable extends Migration
             $table->unsignedBigInteger('level_id')->nullable();
             $table->foreign('level_id')->references('id')->on('levels')->onDelete('set NULL');
 
-            $table->boolean('is_active')->default(false);
+            $table->boolean('is_active')->default(false)->index();
+            $table->boolean('is_ready')->default(false)->index();
+
+            $table->index(['is_ready', 'is_active']);
         });
     }
 
@@ -37,6 +40,7 @@ class AddSettingsToUsersTable extends Migration
                 'end_at',
                 'level_id',
                 'is_active',
+                'is_ready'
             ]);
         });
     }

@@ -2,6 +2,8 @@
 
 namespace App\Services\Bot;
 
+use Illuminate\Support\Str;
+
 class VkButton {
 
     protected const PRIMARY = 'primary';
@@ -19,6 +21,11 @@ class VkButton {
         $attributes = get_object_vars($this);
         unset($attributes['color']);
 
+        foreach ($attributes as $key => $value) {
+            $newKey = Str::snake($key);
+            unset($attributes[$key]);
+            $attributes[$newKey] = $value;
+        }
 
         $result = [
             'action' => $attributes
@@ -27,6 +34,7 @@ class VkButton {
         if ($this instanceof VkTextButton) {
             $result['color'] = $this->color;
         }
+
 
         return $result;
     }

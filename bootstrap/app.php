@@ -65,6 +65,10 @@ $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
 ]);
 
+$app->routeMiddleware([
+    'vk-callback-auth' => App\Http\Middleware\VkCallbackAuth::class,
+]);
+
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers

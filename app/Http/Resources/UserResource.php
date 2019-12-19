@@ -25,6 +25,7 @@ class UserResource extends JsonResource
             'start_at' => $this->start_at,
             'end_at' => $this->end_at,
             'is_active' => $this->is_active,
+            'is_ready' => $this->is_ready,
             'level_id' => $this->level_id
         ];
     }

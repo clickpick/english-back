@@ -50,6 +50,10 @@ class Lesson extends Model
         'is_registered'
     ];
 
+    protected $casts = [
+        'send_at' => 'datetime'
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
