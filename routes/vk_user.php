@@ -30,3 +30,5 @@ $router->post('/me/start', 'MeController@start');
 $router->post('/me/stop', 'MeController@stop');
 
 $router->post('/me/settings', 'MeController@updateSettings');
+
+$router->get('/me/next-lesson', 'MeController@getNextLessonDate');

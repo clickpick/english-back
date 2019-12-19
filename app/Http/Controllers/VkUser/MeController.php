@@ -10,6 +10,7 @@ use App\Http\Resources\GroupResource;
 use App\Http\Resources\UserResource;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Support\Facades\Auth;
 
 class MeController extends Controller
@@ -91,7 +92,6 @@ class MeController extends Controller
 
     public function updateSettings(Request $request): UserResource
     {
-
         $this->validate($request, [
             'start_at' => 'integer|min:420|max:720',
             'end_at' => 'integer|min:1140|max:1440',
@@ -109,5 +109,18 @@ class MeController extends Controller
         $user->update($request->only(['start_at', 'end_at', 'is_active', 'level_id', 'notifications_are_enabled', 'is_ready']));
 
         return new UserResource($user);
+    }
+
+    public function getNextLessonDate() {
+        /**
+         * @var User $user
+         */
+        $user = Auth::user();
+
+        $nextLessonAt = $user->getNextLessonAt();
+
+        return new Resource([
+            'send_at' => $nextLessonAt ? (string)$nextLessonAt : null
+        ]);
     }
 }
