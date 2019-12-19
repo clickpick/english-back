@@ -24,7 +24,8 @@ class UserResource extends JsonResource
             'notifications_are_enabled' => $this->notifications_are_enabled,
             'start_at' => $this->start_at,
             'end_at' => $this->end_at,
-            'is_active' => $this->is_active
+            'is_active' => $this->is_active,
+            'level_id' => $this->level_id
         ];
     }
 }
