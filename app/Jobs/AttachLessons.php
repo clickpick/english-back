@@ -24,10 +24,12 @@ class AttachLessons extends Job
      */
     public function handle()
     {
-        User::where('is_active', true)->chunk(200, function (Collection $users) {
-            $users->each(function (User $user) {
-                dispatch(new RegisterLessonsForUser($user));
+        User::where('is_active', true)
+            ->where('is_ready', true)
+            ->chunk(200, function (Collection $users) {
+                $users->each(function (User $user) {
+                    dispatch(new RegisterLessonsForUser($user));
+                });
             });
-        });
     }
 }
