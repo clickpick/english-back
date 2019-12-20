@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Jobs\DisableNotificationForVkUser;
 use App\Services\Bot\OutgoingMessage;
 use CURLFile;
+use Illuminate\Support\Collection;
 use VK\Client\VKApiClient;
 use VK\Exceptions\Api\VKApiMessagesDenySendException;
 use VK\Exceptions\VKApiException;
@@ -74,5 +76,30 @@ class VkClient
         ]);
 
         return $response['audio_message'];
+    }
+
+    public function sendPushes(Collection $ids, $message, $fragment = '') {
+
+        $ids->chunk(100)->each(function(Collection $chunkedIds) use ($message, $fragment) {
+
+            try {
+                $result = $this->client->notifications()->sendMessage($this->accessToken, [
+                    'user_ids' => $chunkedIds->implode(','),
+                    'message' => $message,
+                    'fragment' => $fragment
+                ]);
+            } catch (\Exception $e) {
+                return;
+            }
+
+
+            collect($result)->filter(function ($item) {
+                return !$item['status'];
+            })->filter(function( $item) {
+                return $item['error']['code'] === 1;
+            })->each(function($item) {
+                dispatch(new DisableNotificationForVkUser($item['user_id']));
+            });
+        });
     }
 }

@@ -68,6 +68,8 @@ use Spatie\Regex\Regex;
  * @property-read int|null $lessons_count
  * @property bool $is_ready
  * @method static Builder|User whereIsReady($value)
+ * @property-read Collection|Achievement[] $achievements
+ * @property-read int|null $achievements_count
  */
 class User extends Model implements AuthenticatableContract, AuthorizableContract
 {
@@ -125,6 +127,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function lessons()
     {
         return $this->hasMany(Lesson::class);
+    }
+
+    public function achievements()
+    {
+        return $this->belongsToMany(Achievement::class)->withTimestamps();
     }
 
     public function fillPersonalInfoFromVk($data = null)
@@ -273,5 +280,24 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         }
 
         return null;
+    }
+
+    public function sendPush($message)
+    {
+        if (!$this->notifications_are_enabled) {
+            return;
+        }
+
+        (new VkClient())->sendPushes(collect([$this->id]), $message);
+    }
+
+    public function completeAchievement(Achievement $achievement)
+    {
+        if ($this->achievements()->where('id', $achievement->id)->exists()) {
+            return;
+        }
+
+        $this->achievements()->attach($achievement->id);
+        $this->sendPush("Открыто достижение {$achievement->name}");
     }
 }
