@@ -7,11 +7,10 @@ namespace App\Http\Controllers\VkUser;
 use App\Group;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\GroupResource;
+use App\Http\Resources\LearnedResource;
 use App\Http\Resources\PhraseResource;
-use App\Http\Resources\UserResource;
-use App\Phrase;
 use App\Word;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Collection;
 
 class DemoController extends Controller
 {
@@ -33,11 +32,17 @@ class DemoController extends Controller
         return PhraseResource::collection($phrases);
     }
 
-    public function about() {
+    public function about()
+    {
         $word = Word::whereName('about')->first();
 
         $phrases = $word->phrases()->orderBy('id', 'asc')->get();
 
-        return PhraseResource::collection($phrases);
+        $resource = new Collection([[
+            'day_num' => 'Начать',
+            'phrases' => $phrases
+        ]]);
+
+        return LearnedResource::collection($resource);
     }
 }
