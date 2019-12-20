@@ -29,7 +29,12 @@ class DemoController extends Controller
         $word = Word::where('level_id', '!=', 1)->first();
         $phrases = $word->phrases;
 
-        return PhraseResource::collection($phrases);
+        $resource = new Collection([[
+            'day_num' => 'Начать',
+            'phrases' => $phrases
+        ]]);
+
+        return LearnedResource::collection($resource);
     }
 
     public function about()
