@@ -30,7 +30,7 @@ class DemoController extends Controller
         $phrases = $word->phrases;
 
         $resource = new Collection([[
-            'day_num' => 'Начать',
+            'day_num' => 'Пример',
             'phrases' => $phrases
         ]]);
 
@@ -44,7 +44,7 @@ class DemoController extends Controller
         $phrases = $word->phrases()->orderBy('id', 'asc')->get();
 
         $resource = new Collection([[
-            'day_num' => 'Начать',
+            'day_num' => 'Начало',
             'phrases' => $phrases
         ]]);
 
