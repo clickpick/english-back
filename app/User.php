@@ -97,7 +97,15 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'messages_are_enabled' => 'boolean',
         'start_at' => 'integer',
         'end_at' => 'integer',
-        'is_active' => 'boolean'
+        'is_active' => 'boolean',
+        'is_ready' => 'boolean'
+    ];
+
+    protected $attributes = [
+        'start_at' => 600,
+        'end_at' => 1200,
+        'is_active' => false,
+        'is_ready' => false
     ];
 
     protected $dispatchesEvents = [
