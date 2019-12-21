@@ -29,6 +29,14 @@ use Illuminate\Support\Carbon;
  */
 class Achievement extends Model
 {
+
+    public const SLUG_START = 'start';
+    public const SLUG_MONTH = 'month';
+    public const SLUG_CLEVER = 'clever';
+    public const SLUG_NOTIFIED = 'notified';
+    public const SLUG_BOT = 'bot';
+    public const SLUG_COMPLETED = 'completed';
+
     protected $fillable = [
         'name',
         'description',

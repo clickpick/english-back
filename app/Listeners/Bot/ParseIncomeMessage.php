@@ -2,6 +2,7 @@
 
 namespace App\Listeners\Bot;
 
+use App\Achievement;
 use App\Events\Bot\GotNewMessage;
 use App\Jobs\Bot\SendNextLesson;
 use App\Jobs\Bot\Start;
@@ -49,6 +50,11 @@ class ParseIncomeMessage
         $this->incomeMessage = $event->incomeMessage;
 
         $user = $this->incomeMessage->getUser();
+
+        $a = Achievement::whereSlug(Achievement::SLUG_BOT)->first();
+        if ($a) {
+            $user->completeAchievement($a);
+        }
 
         if ($user->is_ready) {
             $this->dispatch(SendNextLesson::class);

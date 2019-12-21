@@ -50,6 +50,38 @@ class PhrasesTableSeeder extends Seeder
                         'translation' => 'Хорош смеяться'
                     ]
                 ]
+            ],
+            'Средний' => [
+                'to Quit' => [
+                    [
+                        'native' => "to Quit{$space}😱",
+                        'translation' => 'Оставлять, уходить, бросать, увольняться'
+                    ],
+                    [
+                        'native' => "You should quit smoking{$space}🤯",
+                        'translation' => 'Ты должен бросить курить'
+                    ],
+                    [
+                        'native' => "Quit laughing{$space}😩",
+                        'translation' => 'Хорош смеяться'
+                    ]
+                ]
+            ],
+            'Продвинутый' => [
+                'to Quit' => [
+                    [
+                        'native' => "to Quit{$space}😱",
+                        'translation' => 'Оставлять, уходить, бросать, увольняться'
+                    ],
+                    [
+                        'native' => "You should quit smoking{$space}🤯",
+                        'translation' => 'Ты должен бросить курить'
+                    ],
+                    [
+                        'native' => "Quit laughing{$space}😩",
+                        'translation' => 'Хорош смеяться'
+                    ]
+                ]
             ]
         ];
     }

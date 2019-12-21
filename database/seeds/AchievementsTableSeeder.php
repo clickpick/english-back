@@ -7,39 +7,43 @@ class AchievementsTableSeeder extends Seeder
 
     private function data() {
         return [
-            // is ready
+            // is ready +
             [
                 'name' => 'Свет камера мотор',
                 'description' => 'Начать обучение',
-                'slug' => 'start'
+                'slug' => \App\Achievement::SLUG_START
             ],
-            //
+            // +
             [
                 'name' => 'Месячный',
                 'description' => 'Месяц с нами',
-                'slug' => 'month'
+                'slug' => \App\Achievement::SLUG_MONTH
             ],
-
+            // +
             [
                 'name' => 'Уверен в себе',
                 'description' => 'Выбрать в настройках - знающий',
-                'slug' => 'clever'
+                'slug' => \App\Achievement::SLUG_CLEVER
             ],
-
+            // +
             [
                 'name' => 'В курсе всего',
                 'description' => 'Разрешить уведомления',
-                'slug' => 'notified'
+                'slug' => \App\Achievement::SLUG_NOTIFIED
             ],
+
+            // +
             [
                 'name' => 'Я не робот',
                 'description' => 'Написать боту',
-                'slug' => 'bot'
+                'slug' => \App\Achievement::SLUG_BOT
             ],
+
+            //
             [
                 'name' => 'Game over',
                 'description' => 'Получить все прочие ачивки',
-                'slug' => 'completed'
+                'slug' => \App\Achievement::SLUG_COMPLETED
             ],
         ];
     }

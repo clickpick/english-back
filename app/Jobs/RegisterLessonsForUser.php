@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Achievement;
 use App\Phrase;
 use App\User;
 use App\Word;
@@ -29,9 +30,25 @@ class RegisterLessonsForUser extends Job
      */
     public function handle()
     {
+
+        if ($this->user->created_at->diffInDays(30, true) >= 30) {
+            $a = Achievement::whereSlug(Achievement::SLUG_MONTH)->first();
+
+            if ($a) {
+                $this->user->completeAchievement($a);
+            }
+        }
+
+
         $learnedWordIds = $this->user->learnedWords()->get(['id'])->pluck('id');
 
-        $wordToLearn = Word::whereNotIn('id', $learnedWordIds)->inRandomOrder()->first();
+
+        $levelId = $this->user->level_id ?: 2;
+
+        $wordToLearn = Word::whereNotIn('id', $learnedWordIds)
+            ->where('level_id', $levelId)
+            ->inRandomOrder()
+            ->first();
 
         if (!$wordToLearn) {
             return;

@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\Events\AchievementGot;
 use App\Events\UserCreated;
+use App\Events\UserSaved;
 use App\Services\Bot\OutgoingMessage;
 use App\Services\VkClient;
 use Barryvdh\LaravelIdeHelper\Eloquent;
@@ -111,7 +113,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     ];
 
     protected $dispatchesEvents = [
-        'created' => UserCreated::class
+        'created' => UserCreated::class,
+        'saved' => UserSaved::class
     ];
 
     public function vkMessages()
@@ -298,6 +301,12 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         }
 
         $this->achievements()->attach($achievement->id);
-        $this->sendPush("Открыто достижение {$achievement->name}");
+        event(new AchievementGot($achievement, $this));
+
+        try {
+            $this->sendPush("Открыто достижение {$achievement->name}");
+        } catch (\Exception $e) {
+
+        }
     }
 }
