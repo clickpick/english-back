@@ -10,6 +10,18 @@ class PhrasesTableSeeder extends Seeder
 
         $space = \App\Phrase::SPACE;
 
+        $beginner = \Illuminate\Support\Facades\Storage::get('seed/phrases/beginner.json');
+        $beginner = str_replace('{$space}', $space, $beginner);
+        $beginner = json_decode($beginner, true);
+
+        $normal = \Illuminate\Support\Facades\Storage::get('seed/phrases/normal.json');
+        $normal = str_replace('{$space}', $space, $normal);
+        $normal = json_decode($normal, true);
+
+        $advanced = \Illuminate\Support\Facades\Storage::get('seed/phrases/advanced.json');
+        $advanced = str_replace('{$space}', $space, $advanced);
+        $advanced = json_decode($advanced, true);
+
         return [
             'System' => [
                 'about' => [
@@ -35,54 +47,9 @@ class PhrasesTableSeeder extends Seeder
                     ],
                 ]
             ],
-            'Начальный' => [
-                'to Quit' => [
-                    [
-                        'native' => "to Quit{$space}😱",
-                        'translation' => 'Оставлять, уходить, бросать, увольняться'
-                    ],
-                    [
-                        'native' => "You should quit smoking{$space}🤯",
-                        'translation' => 'Ты должен бросить курить'
-                    ],
-                    [
-                        'native' => "Quit laughing{$space}😩",
-                        'translation' => 'Хорош смеяться'
-                    ]
-                ]
-            ],
-            'Средний' => [
-                'to Quit' => [
-                    [
-                        'native' => "to Quit{$space}😱",
-                        'translation' => 'Оставлять, уходить, бросать, увольняться'
-                    ],
-                    [
-                        'native' => "You should quit smoking{$space}🤯",
-                        'translation' => 'Ты должен бросить курить'
-                    ],
-                    [
-                        'native' => "Quit laughing{$space}😩",
-                        'translation' => 'Хорош смеяться'
-                    ]
-                ]
-            ],
-            'Продвинутый' => [
-                'to Quit' => [
-                    [
-                        'native' => "to Quit{$space}😱",
-                        'translation' => 'Оставлять, уходить, бросать, увольняться'
-                    ],
-                    [
-                        'native' => "You should quit smoking{$space}🤯",
-                        'translation' => 'Ты должен бросить курить'
-                    ],
-                    [
-                        'native' => "Quit laughing{$space}😩",
-                        'translation' => 'Хорош смеяться'
-                    ]
-                ]
-            ]
+            'Начальный' => $beginner,
+            'Средний' => $normal,
+            'Продвинутый' => $advanced
         ];
     }
 
@@ -96,14 +63,14 @@ class PhrasesTableSeeder extends Seeder
         $data = new \Illuminate\Support\Collection($this->data());
 
         $data->each(function ($wordNames, $levelName) {
-            $level = \App\Level::create([
+            $level = \App\Level::createOrFirst([
                 'name' => $levelName
             ]);
 
             $wordNames = new \Illuminate\Support\Collection($wordNames);
 
             $wordNames->each(function ($phraseData, $wordName) use ($level) {
-                $word = $level->words()->create([
+                $word = $level->words()->createOrFirst([
                     'name' => $wordName
                 ]);
 

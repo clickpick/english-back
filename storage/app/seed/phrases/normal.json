@@ -1,0 +1,16 @@
+{
+    "to Quit": [
+        {
+            "native": "to Quit{$space}😱",
+            "translation": "Оставлять, уходить, бросать, увольняться"
+        },
+        {
+            "native": "You should quit smoking{$space}🤯",
+            "translation": "Ты должен бросить курить"
+        },
+        {
+            "native": "Quit laughing{$space}😩",
+            "translation": "Хорош смеяться"
+        }
+    ]
+}

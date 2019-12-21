@@ -2,3 +2,5 @@
 !.gitignore
 !config
 !public
+!seed
+!seed/**

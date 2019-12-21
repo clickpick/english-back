@@ -1,0 +1,42 @@
+{
+    "to Quit": [
+        {
+            "native": "to Quit{$space}😱",
+            "translation": "Оставлять, уходить, бросать, увольняться"
+        },
+        {
+            "native": "You should quit smoking{$space}🤯",
+            "translation": "Ты должен бросить курить"
+        },
+        {
+            "native": "Quit laughing{$space}😩",
+            "translation": "Хорош смеяться"
+        }
+    ],
+    "afternoon": [
+        {
+            "native": "Afternoon",
+            "translation": "Время после полудня"
+        },
+        {
+            "native": "Good afternoon",
+            "translation": "Добрый день!"
+        },
+        {
+            "native": "The afternoon dragged on",
+            "translation": "День затянулся"
+        },
+        {
+            "native": "It was a warm afternoon in August",
+            "translation": "Это был теплый день в августе"
+        },
+        {
+            "native": "Meet us in town this afternoon",
+            "translation": "Встретимся сегодня в городе"
+        },
+        {
+            "native": "Have a good afternoon",
+            "translation": "Хорошего дня"
+        }
+    ]
+}
