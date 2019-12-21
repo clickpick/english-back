@@ -31,6 +31,8 @@ $router->post('/me/stop', 'MeController@stop');
 
 $router->post('/me/settings', 'MeController@updateSettings');
 
+$router->get('/me/achievements', 'MeController@getAchievements');
+
 $router->get('/me/next-lesson', 'MeController@getNextLessonDate');
 
 $router->get('learned', 'LessonController@learned');

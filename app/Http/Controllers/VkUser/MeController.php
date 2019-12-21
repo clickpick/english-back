@@ -4,8 +4,10 @@
 
 namespace App\Http\Controllers\VkUser;
 
+use App\Achievement;
 use App\Group;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AchievementResource;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\UserResource;
 use App\User;
@@ -111,7 +113,8 @@ class MeController extends Controller
         return new UserResource($user);
     }
 
-    public function getNextLessonDate() {
+    public function getNextLessonDate()
+    {
         /**
          * @var User $user
          */
@@ -122,5 +125,23 @@ class MeController extends Controller
         return new Resource([
             'send_at' => $nextLessonAt ? (string)$nextLessonAt : null
         ]);
+    }
+
+    public function getAchievements()
+    {
+        /**
+         * @var User $user
+         */
+        $user = Auth::user();
+
+        $achievements = Achievement::all();
+        $myAchievements = $user->achievements()->get(['id'])->pluck('id');
+
+        $achievements->each(function(Achievement $achievement) use ($myAchievements) {
+            $achievement->setAttribute('is_achieved', $myAchievements->contains($achievement->id));
+        });
+
+
+        return AchievementResource::collection($achievements);
     }
 }
