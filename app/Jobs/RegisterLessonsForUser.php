@@ -31,7 +31,7 @@ class RegisterLessonsForUser extends Job
     public function handle()
     {
 
-        if ($this->user->created_at->diffInDays(30, true) >= 30) {
+        if ($this->user->created_at->diffInDays(Carbon::now(), true) >= 30) {
             $a = Achievement::whereSlug(Achievement::SLUG_MONTH)->first();
 
             if ($a) {
