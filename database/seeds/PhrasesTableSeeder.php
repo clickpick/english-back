@@ -14,13 +14,12 @@ class PhrasesTableSeeder extends Seeder
         $beginner = str_replace('{$space}', $space, $beginner);
         $beginner = json_decode($beginner, true);
 
-        $normal = \Illuminate\Support\Facades\Storage::get('seed/phrases/normal.json');
-        $normal = str_replace('{$space}', $space, $normal);
-        $normal = json_decode($normal, true);
+        $beginnerTxt = $this->parseTxt('beginner.txt');
 
-        $advanced = \Illuminate\Support\Facades\Storage::get('seed/phrases/advanced.json');
-        $advanced = str_replace('{$space}', $space, $advanced);
-        $advanced = json_decode($advanced, true);
+        $beginner = array_merge($beginner, $beginnerTxt);
+
+        $normal = $this->parseTxt('normal.txt');
+        $advanced = $this->parseTxt('advanced.txt');
 
         return [
             'System' => [
@@ -63,19 +62,55 @@ class PhrasesTableSeeder extends Seeder
         $data = new \Illuminate\Support\Collection($this->data());
 
         $data->each(function ($wordNames, $levelName) {
-            $level = \App\Level::createOrFirst([
+            $level = \App\Level::firstOrCreate([
                 'name' => $levelName
             ]);
 
             $wordNames = new \Illuminate\Support\Collection($wordNames);
 
             $wordNames->each(function ($phraseData, $wordName) use ($level) {
-                $word = $level->words()->createOrFirst([
+                $word = $level->words()->firstOrCreate([
                     'name' => $wordName
                 ]);
 
                 $word->phrases()->createMany($phraseData);
             });
         });
+    }
+
+
+    private function parseTxt($filename) {
+        $content = \Illuminate\Support\Facades\Storage::get("seed/phrases/{$filename}");
+
+        $exploded = explode("\n", $content);
+
+        $words = [];
+        $phrases = [];
+
+        foreach ($exploded as $phrase) {
+            if (empty($phrase)) {
+                $words[] = $phrases;
+                unset($phrases);
+                $phrases = [];
+                continue;
+            }
+
+            $phrases[] = $phrase;
+        }
+
+        $result = [];
+
+        foreach ($words as $phrases) {
+            $result[$phrases[0]] = [];
+
+            for ($i = 0, $iMax = count($phrases); $i < $iMax; $i+=2) {
+                $result[$phrases[0]][] = [
+                    'native' => $phrases[$i],
+                    'translation' => $phrases[$i + 1]
+                ];
+            }
+        }
+
+        return $result;
     }
 }

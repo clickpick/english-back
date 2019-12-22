@@ -9,40 +9,40 @@ class AchievementsTableSeeder extends Seeder
         return [
             // is ready +
             [
-                'name' => 'Свет камера мотор',
+                'name' => 'Свет, камера, мотор!',
                 'description' => 'Начать обучение',
                 'slug' => \App\Achievement::SLUG_START
             ],
             // +
             [
-                'name' => 'Месячный',
-                'description' => 'Месяц с нами',
+                'name' => 'Я календарь переверну',
+                'description' => 'Уже месяц с нами',
                 'slug' => \App\Achievement::SLUG_MONTH
             ],
             // +
             [
-                'name' => 'Уверен в себе',
+                'name' => 'Книжный червь',
                 'description' => 'Выбрать в настройках - знающий',
                 'slug' => \App\Achievement::SLUG_CLEVER
             ],
             // +
             [
-                'name' => 'В курсе всего',
+                'name' => 'Во славу click\'у',
                 'description' => 'Разрешить уведомления',
                 'slug' => \App\Achievement::SLUG_NOTIFIED
             ],
 
             // +
             [
-                'name' => 'Я не робот',
+                'name' => 'Навесить ярлык',
                 'description' => 'Написать боту',
                 'slug' => \App\Achievement::SLUG_BOT
             ],
 
             //
             [
-                'name' => 'Game over',
-                'description' => 'Получить все прочие ачивки',
+                'name' => 'Выпускник',
+                'description' => 'Получить все награды',
                 'slug' => \App\Achievement::SLUG_COMPLETED
             ],
         ];
